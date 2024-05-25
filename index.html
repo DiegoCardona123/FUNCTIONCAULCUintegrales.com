@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Integrales</title>
+    <link rel="stylesheet" href="estilosIntegrales.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.0.0/math.min.js"></script>
+</head>
+<body>
+    <nav class="barranave">
+        <div class="barranave__container">
+            <a href="https://diegocardona123.github.io/FUNCTIONCAULCUgracias.com" id="barranave__logo">FUNCTIONCALCU</a>
+            <div class="barranave__toggle" id="menu-movil">
+                <span class="barra"></span>
+                <span class="barra"></span>
+                <span class="barra"></span>
+            </div>
+            <ul class="barranave__menu">
+                <li class="barranave__btn">
+                    <a href="https://diegocardona123.github.io/FUNCTIONCAULCUhome.com" class="boton">Go Home</a>
+                </li>
+            </ul>
+    </nav>
+    <script src="variosIntegrales.js"></script>
+    <div class="body">
+        <form id="integralForm">
+            <label for="functionInput">Ingresa una función: </label>
+            <input type="text" id="functionInput" placeholder="ejem. 4*x^3 + 2*x - 9" required>
+            <div class="special-buttons">
+                <button type="button" onclick="insertCharacter('^')">^</button>
+            </div>
+            <button type="submit">Calcular Integral</button>
+        </form>
+        <p id="result"></p>
+    
+        <script>
+            function insertCharacter(char) {
+            const input = document.getElementById('functionInput');
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            const value = input.value;
+
+            input.value = value.substring(0, start) + char + value.substring(end);
+            input.focus();
+            input.selectionStart = input.selectionEnd = start + char.length;
+            }
+
+            document.getElementById('integralForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const userInput = document.getElementById('functionInput').value;
+            
+
+            try {
+                const expression = math.parse(userInput);
+                const integral = math.integral(expression, 'x').toString();
+                document.getElementById('result').innerText = 'Integral: ' + integral + ' + C';
+            } catch (error) {
+                document.getElementById('result').innerText = 'Error: ' + error.message;
+            }
+        });
+        </script>
+    </div>
+</body>
+</html>
